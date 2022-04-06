@@ -1,0 +1,80 @@
+#! /bin/bash
+
+# Copyright (C) 2012/2013 Raúl Díez Sánchez.
+# Mail: rauldiez20@gmail.com
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+# You can find the GNU GPL on http://www.gnu.org/licenses/gpl.html
+
+# Este programa es software libre; puedes redistribuirlo y/o modificarlo
+# bajo los términos de la GNU General Public License tal y como se publicó por
+# la Free Software Foundation; sea la version 3 de la Licencia, o cualquier versión posterior.
+# Puedes encontrar la GNU GPL en http://www.gnu.org/licenses/gpl.html (en inglés).
+
+# EN ==> English comments.
+# ES ==> Comentarios en español.
+
+# EN: This program implements a script that allows increase and lower the backlight (brightness) of your laptop.
+# ES: Este programa implementa un script que permite subir y bajar la retroiluminacion (brillo) de tu portatil.
+
+# Version 1.3
+
+mkfifo /var/run/brillo 2> /dev/null
+
+acpi_listen > /var/run/brillo &
+$BRILLO=00  # Variable que controla el brillo. # Brightness control's variable.
+cat /var/run/brillo | while read i; do
+# EN: At first, the IF to increase the brightness, from ff to 00, with this limit.
+# ES: Primero, los IF para subir el brillo, desde ff hasta 00, con este como límite
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==00); then
+      #Already full. Not increase.
+   fi
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==33); then
+      $BRILLO=00
+      setpci -s 00:02.0 f4.b=00
+   fi
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==77); then
+      $BRILLO=33
+      setpci -s 00:02.0 f4.b=33
+   fi
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==aa); then
+      $BRILLO=77
+      setpci -s 00:02.0 f4.b=77
+   fi
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==cc); then
+      $BRILLO=aa
+      setpci -s 00:02.0 f4.b=aa
+   fi
+   if (( $(echo $i | grep -c brightnessup) > 0 ) && $BRILLO==ff); then
+      $BRILLO=cc
+      setpci -s 00:02.0 f4.b=cc
+   fi
+# EN: Now, the opposite. Lower the brightness from 00 to ff, with this limit.
+# ES: Ahora, lo contrario. Baja el brillo desde 00 hasta ff, con este como límite.
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==ff); then
+      #Already minimum. Not decrease.
+   fi
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==cc); then
+      $BRILLO=ff
+      setpci -s 00:02.0 f4.b=ff
+   fi
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==aa); then
+      $BRILLO=cc
+      setpci -s 00:02.0 f4.b=cc
+   fi
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==77); then
+      $BRILLO=aa
+      setpci -s 00:02.0 f4.b=aa
+   fi
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==33); then
+      $BRILLO=77
+      setpci -s 00:02.0 f4.b=77
+   fi
+   if(( $(echo $i | grep -c brightnessdown) > 0 ) && $BRILLO==00); then
+      $BRILLO=33
+      setpci -s 00:02.0 f4.b=33
+   fi
+done

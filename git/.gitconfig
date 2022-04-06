@@ -3,5 +3,3 @@
     email = eb531@web.de
 [credential]
 	helper = store
-[commit]
-	gpgsign = true
