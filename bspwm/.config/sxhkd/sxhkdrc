@@ -99,10 +99,9 @@ super + {Left,Down,Up,Right}
 ### Applications ###
 ####################
 
-# kitty (terminal emulator)
+# alacritty (terminal emulator)
 super + Return
 	alacritty
-      # kitty --single-instance
 
 # floating kitty
 super + shift + Return

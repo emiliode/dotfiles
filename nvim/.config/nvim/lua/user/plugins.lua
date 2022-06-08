@@ -45,6 +45,7 @@ return packer.startup(function(use)
 	use("nvim-lua/popup.nvim") -- An implementation of the Popup API from vim in Neovim
 	use("nvim-lua/plenary.nvim") -- Useful lua functions used ny lots of plugins
 
+    use("folke/which-key.nvim")
 	use("LunarVim/Colorschemes")
     use("arcticicestudio/nord-vim")
 
@@ -66,7 +67,6 @@ return packer.startup(function(use)
 	-- Telescope
 	use("nvim-telescope/telescope.nvim")
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-	-- Treesiiter
 	-- Treesitter
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -84,6 +84,13 @@ return packer.startup(function(use)
 	-- tmux
 	use("christoomey/vim-tmux-navigator")
 	use("preservim/vimux")
+    -- markdown
+    use("godlygeek/tabular")
+    use("elzr/vim-json")
+    use("plasticboy/vim-markdown")
+    use("vim-pandoc/vim-pandoc")
+    use("vim-pandoc/vim-pandoc-syntax")
+    use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then

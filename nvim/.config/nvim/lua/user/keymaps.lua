@@ -76,3 +76,7 @@ keymap("n", "<leader>vp", "<cmd>VimuxPromptCommand<cr>", opts)
 keymap("n", "<leader>vl", "<cmd>VimuxRunLastCommand<cr>", opts)
 keymap("n", "<leader>vi", "<cmd>VimuxInspectRunner<CR>", opts)
 keymap("n", "<leader>vz", "<cmd>VimuxZoomRunner<CR>", opts)
+
+-- markdown preview
+keymap("n","<M-m>","<cmd>MarkdownPreview<cr>",opts)
+

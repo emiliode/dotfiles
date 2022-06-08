@@ -3,3 +3,8 @@
     email = eb531@web.de
 [credential]
 	helper = store
+	helper = 
+	helper = /usr/local/bin/git-credential-manager-core
+	credentialStore = secretservice
+[credential "https://dev.azure.com"]
+	useHttpPath = true

@@ -39,6 +39,15 @@ vim.opt.shortmess:append "c"
 for k, v in pairs(options) do
     vim.opt[k]=v
 end
+vim.g.vim_markdown_folding_disabled=3
+vim.vim_mardown_conceal=0
+vim.tex_conceal=""
+vim.vim_markdown_math=1
+vim.vim_markdown_frontmatter=1
+vim.vim_markdown_toml_frontmatter=1
+vim.vim_markdown_json_frontmatter=1
+
+
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
 vim.cmd [[set formatoptions-=cro]] -- TODO: this doesn't seem to work
