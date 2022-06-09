@@ -1,10 +1,23 @@
-require("user.options")
-require("user.keymaps")
-require("user.plugins")
-require("user.cmp")
-require("user.lsp")
-require("user.treesitter")
-require("user.telescope")
-require("user.autopairs")
-require("user.gitsigns")
-vim.cmd("colorscheme nord")
+local present, impatient = pcall(require, "impatient")
+
+if present then
+   impatient.enable_profile()
+end
+
+require "core"
+require "core.utils"
+require "core.options"
+
+vim.defer_fn(function()
+   require("core.utils").load_mappings()
+end, 0)
+
+-- setup packer + plugins
+require("core.packer").bootstrap()
+require "plugins"
+
+local user_conf, _ = pcall(require, "custom")
+
+if user_conf then
+   require "custom"
+end

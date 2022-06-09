@@ -2,12 +2,13 @@
 
 # Terminate already running bar instances
 killall -q polybar
-
-# Wait until the processes have been shut down
-while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+# If all your bars have ipc enabled, you can also use 
+# polybar-msg cmd quit
 
 # Launch bar1 and bar2
-polybar -c $HOME/.config/polybar/dark-config nord-top &
-polybar -c $HOME/.config/polybar/dark-config nord-top-external &
-
+echo "---" | tee -a /tmp/polybar1.log 
+#polybar black >>/tmp/polybar1.log 2>&1 & disown
+for m in $(polybar --list-monitors | cut -d":" -f1); do
+    MONITOR=$m polybar --reload example >> /tmp/polybar1.log 2>&1 & disown 
+done
 echo "Bars launched..."

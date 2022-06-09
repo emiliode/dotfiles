@@ -8,6 +8,6 @@ while true
 do
 	line=$(cat "$pipe")
 	if [[ "$line" == "usb" ]] ; then
-		play -v 0.3 /home/emil/.config/bspwm/connect.mp3 &
+		play -v 1.3 /home/emil/.config/bspwm/connect.mp3 &
 	fi
 done
