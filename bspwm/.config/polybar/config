@@ -60,12 +60,20 @@ line-size = 1
 wm-restack = bspwm
 
 modules-left = round-left bspwm round-right empty-space  round-left polywins round-right
-modules-center =  
+modules-center = system-usb-udev 
 modules-right = pulseaudio battery round-left cpu round-right updates wlan wlan2 mem xbacklight round-left time  round-right  powermenu
 font-0 = JetBrainsMono Nerd Font:style=Bold:pixelsize=9;3
 font-1 = JetBrainsMono Nerd Font:size=14:style=Regular;4
 font-2 = Material Design Icons:style=Regular:size=9;3
 font-3 = unifont:fontformat=truetype:size=9;3
+
+
+[module/system-usb-udev]
+type = custom/script
+exec = ~/.config/polybar/scripts/system-usb-udev.sh
+tail = true
+click-left = ~/.config/polybar/scripts/system-usb-udev.sh --mount &
+click-right = ~/.config/polybar/scripts/system-usb-udev.sh --unmount &
 
 
 [module/polywins]
