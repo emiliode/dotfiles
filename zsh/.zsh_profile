@@ -1,0 +1,9 @@
+VIM="nvim"
+export SUDO_PROMPT="passwd: "
+addToPathFront $HOME/.local/scripts
+addToPathFront $HOME/.local/bin
+
+bindkey -s ^f "tmux-sessionizer\n"
+
+
+

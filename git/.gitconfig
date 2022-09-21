@@ -1,6 +1,6 @@
 [user]
-    name = emiliode 
-    email = eb531@web.de
+	name = Emil Behnke
+	email = eb531@web.de
 [credential]
 	helper = store
 	helper = 
@@ -8,3 +8,5 @@
 	credentialStore = secretservice
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[credential "https://git.bwinf.de"]
+	provider = generic
