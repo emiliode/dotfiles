@@ -1,0 +1,8 @@
+#!/usr/bin/bash 
+
+moncount=$(xrandr --query | grep " connected" | wc -l)
+
+if [ $moncount -eq 2 ] 
+then
+    echo "hello"
+fi

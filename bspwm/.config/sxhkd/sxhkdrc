@@ -132,7 +132,8 @@ super + w
 # flameshot (screenshot)
 {Print, Insert}
     flameshot gui
-
+super + shift + s 
+    flameshot gui
 # scrot (screenshot)
 shift + {Print, Insert}
     scrot
@@ -140,8 +141,7 @@ shift + {Print, Insert}
 ##################
 ### Media Keys ###
 ##################
-
-XF68AudioPlay
+XF86AudioPlay
 	playerctl play-pause
 
 # pause/play music

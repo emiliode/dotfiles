@@ -1,8 +1,12 @@
-VIM="nvim"
-export SUDO_PROMPT="passwd: "
-addToPathFront $HOME/.local/scripts
-addToPathFront $HOME/.local/bin
 
+VIM="nvim"
+
+source /usr/share/fzf/key-bindings.zsh 
+source /usr/share/fzf/completion.zsh 
+
+export SUDO_PROMPT="passwd: "
+export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"
+export DOTFILES=$HOME/dotfiles
 bindkey -s ^f "tmux-sessionizer\n"
 
 
