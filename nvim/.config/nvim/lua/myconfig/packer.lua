@@ -9,8 +9,8 @@ local id = vim.api.nvim_create_augroup("MyGroup", {
     clear = true
 })
 
-vim.api.nvim_create_autocmd("BufWritePost",{
-    group = id,
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group    = id,
     pattern  = "packer.lua",
     callback = function(ev)
         vim.cmd.luafile("/home/emil/.config/nvim/lua/myconfig/packer.lua")
@@ -23,6 +23,8 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     use { 'lunarvim/darkplus.nvim' }
+    use { 'AlphaTechnolog/pywal.nvim', as = 'pywal' }
+    use "norcalli/nvim-colorizer.lua"
     use 'christoomey/vim-tmux-navigator'
     use 'jiangmiao/auto-pairs'
     use {

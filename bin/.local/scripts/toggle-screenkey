@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -n $(pgrep screenkey) ]] 
+then
+    killall screenkey
+else 
+    screenkey -t 1 -s small --multiline --opacity 0.6 &
+
+fi
+
+
+

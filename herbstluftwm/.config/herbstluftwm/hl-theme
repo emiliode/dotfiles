@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. ${HOME}/.cache/wal/colors.sh
+
+herbstclient set frame_border_normal_color "$color2" ## '#0000ff'
+herbstclient set frame_border_active_color "$color7" ##'#ff0000' ##'#204020'
+herbstclient set window_border_normal_color "$color3" ## "#ff0000"
+herbstclient set window_border_active_color "$color5" ## "#ff0000"
+herbstclient set frame_bg_transparent true
+herbstclient set frame_active_opacity 60
+herbstclient set frame_normal_opacity 60
+

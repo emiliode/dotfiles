@@ -97,6 +97,8 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+(cat ~/.cache/wal/sequences &)
+
 alias ls="exa --color=auto --icons"
 alias l="ls -l"
 alias la="ls -a"

@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+
+
+NAME="${0##*/}"
+VER="0.1"
+
+usage()
+{
+	cat <<EOF
+
+ hl-tagman - herbstluft window manager tag/workspace manager
+		
+    
+ USAGE:		$NAME [OPTIONS]
+
+ OPTIONS:
+
+      h,-h,--help     Display this message
+
+      v,-v,--version  Display script version
+
+      m,-m,--move     moves the focused window to the selected tag
+      
+      j,-j,--jump     switches to selected tag
+      
+      a,-a,--add      adds a tag
+      
+      d,-d,--delete   deletes a selected tag
+      
+      r,-r,--rename   renames selected tag
+      
+  Without any options --help is executed.
+
+EOF
+}
+
+
+##rofi theme
+[ -f "$HOME/.config/rofi/themes/torsten.rasi" ] \
+  && mytheme="$HOME/.config/rofi/themes/torsten.rasi" \
+  || mytheme="/usr/share/rofi/themes/DarkBlue.rasi"
+
+##tag list
+function list_refresh {
+  list=$(herbstclient tag_status | tr '\t' '\n' | sed 's/^.//g')
+  #~ list=$(herbstclient tag_status | tr '\t' '\n' | tail -n +6 | sed 's/^.//g')  
+  ## the tail ^ is to exclude the first 5 tags because they are on keyboard shortcuts anyway
+  echo "$list" > $HOME/.config/herbstluftwm/hl-tags
+}
+
+function tm_pick {
+	choice1=""
+  choice1=$(echo -e "$list\n## add\n## delete\n## rename" | rofi -dmenu -i -p "Workspaces/Tags" -theme $mytheme)
+	if [[ "$choice1" = "## add" ]]
+  then
+    echo "add" >&2
+    tm_add
+    tm_pick
+    exit 0
+  fi
+  if [[ "$choice1" = "## delete" ]]
+  then
+    echo "delete" >&2
+    tm_delete
+    tm_pick
+    exit 0
+  fi
+  if [[ "$choice1" = "## rename" ]]
+  then
+    echo "rename" >&2
+    tm_rename
+    tm_pick
+    exit 0
+  fi
+  echo -e "$choice1"
+}
+
+function tm_add {
+	name_new=$(rofi -dmenu -p "new name (will overwrite)" -l 1 -theme $mytheme) 
+  echo "new tag: $name_new" >&2
+	herbstclient add "$name_new"
+  list_refresh
+}
+
+function tm_delete {
+	choice2=$(echo -e "$list" | rofi -dmenu -i -p "delete tag" -theme $mytheme)
+	echo "delete tag: $choice2" >&2
+  herbstclient merge_tag "$choice2" || herbstclient chain , use_index +1 , merge_tag "$choice2"
+  list_refresh
+}
+
+function tm_rename {
+  choice3=$(echo -e "$list" | rofi -dmenu -i -p "rename tag" -theme $mytheme)
+  name_new2=$(rofi -dmenu -p "new name (will overwrite)" -l 1 -theme $mytheme)
+  echo "renames $choice3 to $name_new2" >&2
+  herbstclient rename "$choice3" "$name_new2"
+  list_refresh
+}
+
+list=$(herbstclient tag_status | tr '\t' '\n' | sed 's/^.//g')
+if (( $# == 0 ))
+  then
+    usage
+    exit 2
+  fi
+case $1 in 
+    m|-m|--move)
+      herbstclient move "$(tm_pick)"
+      exit 0
+      ;;
+    j|-j|--jump)
+      herbstclient use "$(tm_pick)"
+      exit 0
+      ;;
+    a|-a|--add)
+      tm_add
+      exit 0
+      ;;
+    d|-d|--delete)
+      tm_delete
+      exit 0
+      ;;
+    r|-r|--rename)
+      tm_rename
+      exit 0
+      ;;
+    h|-h|--help)
+    	usage
+    	exit 0
+    	;;
+    v|-v|--version)
+      echo -e "$NAME -- Version $VER"
+			exit 0
+			;;
+    *)
+      printf "\nOption does not exist: %s\n\n" "$arg"
+      usage
+      exit 2
+      ;;
+    esac
+
+exit 0    
