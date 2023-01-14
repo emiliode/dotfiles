@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTPATH/down
+
+autostart="picom nm-applet lxsession unclutter"
+for program in $autostart; do
+	pidof -s "$program" || "$program" &
+done >/dev/null 2>&1
+
+
+id=$(xinput | grep "Touch[pP]ad.*id=\S\+\s" | grep -o "id=[0-9][0-9]") && id=${id:3}
+xinput set-prop $id "libinput Tapping Enabled" 1
+
+feh --bg-scale ~/wallpapers/forest.jpg
+
+echo "LoadTheme $SCRIPTPATH/theme.ron" > $XDG_RUNTIME_DIR/leftwm/command-0.pipe
+
+#boot polybar based on the number of monitors found
+if [ -x "$(command -v polybar)" ]; then
+    $HOME/.config/polybar/launch.sh &
+fi

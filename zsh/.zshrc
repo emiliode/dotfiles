@@ -1,9 +1,9 @@
 # If you come from bash you might have to change your $PATH.
- export PATH=$HOME/.cargo/bin:$PATH
+ export PATH=$HOME/.cargo/bin:$HOME/go/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/dotfiles/oh-my-zsh"
-
+export SUDO_ASKPASS="$HOME/.local/scripts/dmenupass"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -97,7 +97,6 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-(cat ~/.cache/wal/sequences &)
 
 alias ls="exa --color=auto --icons"
 alias l="ls -l"

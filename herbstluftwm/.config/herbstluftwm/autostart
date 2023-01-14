@@ -2,36 +2,53 @@
 
 ## own stuff
 
-picom &
-wal -R -q  
+autostart="picom nm-applet lxsession unclutter"
+for program in $autostart; do
+	pidof -s "$program" || "$program" &
+done >/dev/null 2>&1
+
+wal -R -q &
 id=$(xinput | grep "Touch[pP]ad.*id=\S\+\s" | grep -o "id=[0-9][0-9]") && id=${id:3}
+
 xinput set-prop $id "libinput Tapping Enabled" 1
 
 hc() {
     herbstclient "$@"
 }
-
 herbstclient emit_hook reload
 
 xsetroot -solid "#5A8E3A"
-
+term="alacritty"
 herbstclient keyunbind --all
 Mod=Mod4
+
 hc keybind $Mod-Ctrl-q quit
 hc keybind $Mod-Ctrl-r reload
-hc keybind $Mod-Shift-q close
-hc keybind $Mod-Alt-w spawn firefox
-hc keybind $Mod-Return spawn alacritty
+hc keybind $Mod-Shift-q close_and_remove
+
+hc keybind $Mod-d spawn dmenu_run
+hc keybind $Mod-BackSpace spawn ~/.local/scripts/dmenu_power 
+hc keybind $Mod-Shift-w spawn firefox
+hc keybind $Mod-Shift-m spawn $term -e neomutt 
+hc keybind $Mod-Return spawn $term 
+# hc keybind $Mod-e spawn ~/.local/scripts/dmenu-emoji.sh 
+hc keybind $Mod-e spawn unipicker --command "dmenu -l 8" --copy 
 herbstclient keybind XF86AudioRaiseVolume spawn volume.sh up
 herbstclient keybind XF86AudioLowerVolume spawn volume.sh down 
 herbstclient keybind XF86AudioMute spawn volume.sh mute 
-
+herbstclient keybind XF86MonBrightnessUp spawn brightnessctl set +5%
+herbstclient keybind XF86MonBrightnessDown spawn brightnessctl set 5%-
 
 # basic movements
 herbstclient keybind $Mod-h     focus left
 herbstclient keybind $Mod-j     focus down
 herbstclient keybind $Mod-k     focus up
 herbstclient keybind $Mod-l     focus right
+
+herbstclient keybind $Mod-Ctrl-h     resize left
+herbstclient keybind $Mod-Ctrl-j     resize down
+herbstclient keybind $Mod-Ctrl-k     resize up
+herbstclient keybind $Mod-Ctrl-l     resize right
 
 #moving clients in tiling and floating mode
 herbstclient keybind $Mod-Shift-h     shift left
@@ -66,8 +83,6 @@ herbstclient keybind $Mod+dead_circumflex spawn $HOME/.local/scripts/hl-tagman -
 herbstclient keybind $Mod+Shift+dead_circumflex spawn $HOME/.local/scripts/hl-tagman -m
 
 # cycle through tags
-herbstclient keybind $Mod-period use_index +1 
-herbstclient keybind $Mod-comma  use_index -1 
 
 
 # layouting
@@ -82,7 +97,7 @@ herbstclient keybind $Mod-p pseudotile toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-herbstclient keybind $Mod-Space  \
+herbstclient keybind $Mod-space  \
 	or , and . compare tags.focus.curframe_wcount = 2  \
 			. cycle_layout +1 vertical max horizontal \
 			, cycle_layout +1 grid max
@@ -91,7 +106,6 @@ herbstclient keybind $Mod-g set frame_border_width 2
 herbstclient keybind $Mod-Shift-g set frame_border_width 0
 
 herbstclient keybind $Mod-w set window_border_width 2
-herbstclient keybind $Mod-Shift-w set window_border_width 0
 
 # herbstclient keybind $Mod-h cycle_value frame_gap 0 1 2 5 10 20 50 100 200
 # herbstclient keybind $Mod-Shift-h cycle_value frame_gap 200 100 50 20 10 5 2 1 0
@@ -109,7 +123,7 @@ herbstclient set always_show_frame 1
 #herbstclient set frame_bg_transparent 1
 herbstclient set frame_padding 0
 herbstclient set mouse_recenter_gap 0
-
+herbstclient set default_frame_layout="horizontal"
 
 herbstclient mouseunbind --allscroll wheel up
 herbstclient mousebind $Mod-Button1 move
@@ -117,9 +131,11 @@ herbstclient mousebind $Mod-Button2 zoom
 herbstclient mousebind $Mod-Button3 resize
 
 # focus
-herbstclient keybind $Mod-BackSpace   cycle_monitor
 herbstclient keybind $Mod-Tab         cycle_all +1
 herbstclient keybind $Mod-Shift-Tab   cycle_all -1
+
+herbstclient keybind $Mod-comma cycle_monitor 
+
 herbstclient keybind $Mod-c cycle
 herbstclient keybind $Mod-Shift-i jumpto urgent
 
@@ -149,7 +165,7 @@ herbstclient rule floatplacement=center
 herbstclient rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 herbstclient rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 herbstclient rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-
+herbstclient rule class=Dragon-drop floating=on focus=on
 
 
 herbstclient set tree_style '╾│ ├└╼─┐'

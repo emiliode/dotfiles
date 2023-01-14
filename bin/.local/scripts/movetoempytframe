@@ -1,0 +1,6 @@
+#!/bin/bash 
+
+echo "test"
+children=$(herbstclient attr tags.focus.tiling.root | grep children)
+echo $children
+

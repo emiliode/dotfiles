@@ -1,0 +1,14 @@
+#!/bin/sh 
+
+export WM="leftWm"
+
+case "$(printf "🔒lock\n🚪exit $WM\n♻ reload $WM\n🔃 reboot\n🖥 shutdown\n💤 sleep\n📺 display off" | dmenu -i -p 'Action: ')" in
+    '🔒lock')  slock ;;
+    '💤 sleep')  slock && systemctl suspend -i ;;
+    '♻ reload leftWm') leftwm-command "SoftReload" ;;
+    '🚪exit leftWm') notify-send "exiting" && loginctl kill-session $XDG_SESSION_ID ;; 
+    '🔃 reboot') systemctl reboot -i ;;
+    '🖥 shutdown') systemctl poweroff -i ;;
+    '📺 display off') xset dpms force off ;;
+    *) exit 1 ;;
+esac
