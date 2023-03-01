@@ -6,6 +6,7 @@ source /usr/share/fzf/completion.zsh
 
 export SUDO_PROMPT="passwd: "
 export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"
+export BROWSER="firefox"
 export DOTFILES=$HOME/dotfiles
 bindkey -s ^f "tmux-sessionizer\n"
 

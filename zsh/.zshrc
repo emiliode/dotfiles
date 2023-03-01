@@ -1,9 +1,10 @@
 # If you come from bash you might have to change your $PATH.
- export PATH=$HOME/.cargo/bin:$HOME/go/bin:$PATH
+ export PATH=$HOME/.cargo/bin:/usr/local/go/bin:$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/dotfiles/oh-my-zsh"
 export SUDO_ASKPASS="$HOME/.local/scripts/dmenupass"
+export EDITOR="nvim"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME

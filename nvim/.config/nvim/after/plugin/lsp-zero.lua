@@ -54,6 +54,6 @@ lsp.configure("sumneko_lua", {
         },
     },
 })
-
+lsp.configure("jdtls",{autostart=false})
 
 lsp.setup()
