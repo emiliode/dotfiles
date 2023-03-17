@@ -27,7 +27,7 @@ return require('packer').startup(function(use)
     use {"EdenEast/nightfox.nvim"}
     use "norcalli/nvim-colorizer.lua"
     use 'christoomey/vim-tmux-navigator'
-    use 'jiangmiao/auto-pairs'
+--    use 'jiangmiao/auto-pairs'
     use 'lervag/vimtex'
     use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
     use {

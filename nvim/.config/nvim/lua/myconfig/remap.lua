@@ -22,6 +22,6 @@ local function open_github()
     print(url)
     io.popen("xdg-open '".. url .. "' 2> /dev/null &")
 end
-vim.keymap.set("n", "<leader>g", open_github)
+----vim.keymap.set("n", "<leader>g", open_github)
 
 
