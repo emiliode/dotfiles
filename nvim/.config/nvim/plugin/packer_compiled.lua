@@ -191,6 +191,11 @@ _G.packer_plugins = {
     path = "/home/emil/.local/share/nvim/site/pack/packer/start/pywal",
     url = "https://github.com/AlphaTechnolog/pywal.nvim"
   },
+  ["rrust.nvim"] = {
+    loaded = true,
+    path = "/home/emil/.local/share/nvim/site/pack/packer/start/rrust.nvim",
+    url = "https://github.com/vlopes11/rrust.nvim"
+  },
   ["telescope.nvim"] = {
     loaded = true,
     path = "/home/emil/.local/share/nvim/site/pack/packer/start/telescope.nvim",

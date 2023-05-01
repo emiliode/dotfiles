@@ -38,6 +38,7 @@ return require('packer').startup(function(use)
     use { 'nvim-treesitter/nvim-treesitter-textobjects' }
     use('nvim-treesitter/playground')
     use('tpope/vim-fugitive')
+    use {'vlopes11/rrust.nvim'}
     use {'mfussenegger/nvim-jdtls'}
     use {
         'VonHeikemen/lsp-zero.nvim',
