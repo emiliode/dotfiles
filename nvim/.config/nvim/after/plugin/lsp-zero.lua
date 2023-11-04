@@ -27,9 +27,11 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+  vim.keymap.set("i", "<C-k>", function() vim.lsp.buf.signature_help() end, opts)
   vim.keymap.set("n","<leader>f",function() vim.lsp.buf.format() end,opts)
 end)
+local ih = require('inlay-hints')
+ih.setup()
 
 lsp.configure("sumneko_lua", {
 
@@ -55,5 +57,8 @@ lsp.configure("sumneko_lua", {
     },
 })
 lsp.configure("jdtls",{autostart=false})
+lsp.configure("rust_analyzer",  {  on_attach = function(client, bufnr)
+    ih.on_attach(client, bufnr)
+  end,  })
 
 lsp.setup()

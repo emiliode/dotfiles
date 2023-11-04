@@ -1,6 +1,0 @@
-[submodule "tmux/themes/nord-tmux"]
-	path = tmux/themes/nord-tmux
-	url = https://github.com/arcticicestudio/nord-tmux
-[submodule "tmux/.tmux/plugins/tmux_super_fingers"]
-	path = tmux/.tmux/plugins/tmux_super_fingers
-	url = https://github.com/artemave/tmux_super_fingers.git

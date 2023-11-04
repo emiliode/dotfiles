@@ -25,6 +25,7 @@ return require('packer').startup(function(use)
     use { 'lunarvim/darkplus.nvim' }
     use { 'AlphaTechnolog/pywal.nvim', as = 'pywal' }
     use {"EdenEast/nightfox.nvim"}
+    use { "ellisonleao/gruvbox.nvim" }
     use "norcalli/nvim-colorizer.lua"
     use 'christoomey/vim-tmux-navigator'
 --    use 'jiangmiao/auto-pairs'
@@ -36,10 +37,13 @@ return require('packer').startup(function(use)
     }
     use { 'nvim-treesitter/nvim-treesitter' }
     use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+    use {'nvim-treesitter/nvim-treesitter-context'}
     use('nvim-treesitter/playground')
     use('tpope/vim-fugitive')
     use {'vlopes11/rrust.nvim'}
     use {'mfussenegger/nvim-jdtls'}
+    use {'simrat39/inlay-hints.nvim'}
+    use { 'preservim/vimux' }
     use {
         'VonHeikemen/lsp-zero.nvim',
         requires = {
