@@ -1,0 +1,36 @@
+#!/bin/sh
+
+
+notify-send "locking1"
+
+
+before_lock() {
+    notify-send "befor lock"
+}
+
+case "$1" in
+    exit)
+        systemctl --user stop sway-session.target
+        swaymsg exit
+        ;;
+    lock)
+        notify-send "locking1"
+        before_lock
+        notify-send "locking2"
+        swaylock
+        ;;
+    suspend)
+        systemctl -i suspend
+        swaylock
+        ;;
+    reboot)
+        systemctl -i reboot
+        ;;
+    shutdown)
+        systemctl -i poweroff
+        ;;
+    *)
+        echo "Usage: $0 {exit|lock|suspend|reboot|shutdown}"
+        exit 2
+        ;;
+esac

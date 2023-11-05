@@ -15,16 +15,23 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term alacritty
+
+# Workaround for GTK apps hanging during init
+# See https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+# See https://github.com/swaywm/sway/issues/5732
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
-default_border pixel 
-default_floating_border pixel
-### Output configuration
+default_border pixel 2
+
+default_floating_border none
+## Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/emil/Downloads/wp11058350-gruvbox-wallpapers.png fill
 #
 # Example configuration:
 #
@@ -36,14 +43,33 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
+ exec swayidle -w \
+          timeout 300 'swaylock -f -c 000000' \
+          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+          before-sleep 'swaylock -f -c 000000'
+
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+
+for_window [title="nmtui"] floating enable
+for_window [title="files"] floating enable
+
+# Color scheme (Gruvbox dark)
+set $color_normal_white  #a89984
+set $color_bright_white  #ebdbb2
+set $color_normal_gray   #282828
+set $color_bright_gray   #3c3836
+set $color_bright_yellow #d79921
+set $color_normal_black  #1d2021
+set $color_unused        #ff0000
+
+# Colors                  border                 background             text                   indicator            child_border
+client.focused            $color_bright_yellow   $color_bright_gray     $color_bright_white    $color_bright_gray   $color_bright_yellow
+client.focused_inactive   $color_bright_gray     $color_bright_gray     $color_bright_white    $color_bright_gray   $color_normal_black
+client.unfocused          $color_normal_gray     $color_normal_gray     $color_normal_white    $color_normal_gray   $color_normal_black
+client.urgent             $color_bright_yellow   $color_bright_yellow   $color_normal_black    $color_unused        $color_unused
+client.placeholder        $color_unused          $color_unused          $color_unused          $color_unused        $color_unused
 
 ### Input configuration
 input * {
@@ -57,6 +83,7 @@ input "2:14:ETPS/2_Elantech_Touchpad" {
     tap enabled 
     natural_scroll enabled
     middle_emulation enabled
+    tap_button_map lrm
 }
 #
 # Example configuration:
@@ -85,6 +112,23 @@ input "2:14:ETPS/2_Elantech_Touchpad" {
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+Shift+i exec ~/.local/scripts/show_klausur.sh
+    bindsym $mod+Mod1+c exec ~/.local/scripts/get_course.sh
+    bindsym $mod+Mod1+m exec  rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo -n '{result}' | wl-copy" 
+    bindsym $mod+Mod1+x exec $term --title nmtui -e nmtui
+    bindsym $mod+Mod1+u exec $term --title files -e ~/.local/scripts/openZathura
+    bindsym $mod+Mod1+n exec $term -e neomutt
+    bindsym $mod+Mod1+w exec firefox 
+bindsym $mod+z seat "default" cursor press right
+
+# volume
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.local/scripts/volume.sh up && pkill -SIGRTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.local/scripts/volume.sh down && pkill -SIGRTMIN+1 i3blocks
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.local/scripts/brightness.sh up 
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.local/scripts/brightness.sh down 
+
+bindsym XF86AudioMute exec --no-startup-id ~/.local/scripts/volume.sh mute && pkill -SIGRTMIN+1 i3blocks
+
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -212,22 +256,27 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+set $mode_system "System exit"
+mode $mode_system {
+    bindsym --to-code {
+        e exec ~/.local/scripts/sway-exit exit, mode "default"
+        l exec ~/.local/scripts/sway-exit lock, mode "default"
+        s exec ~/.local/scripts/sway-exit suspend, mode "default"
+        r exec ~/.local/scripts/sway-exit reboot, mode "default"
+        h exec ~/.local/scripts/sway-exit shutdown, mode "default"
+
+        # back to normal: Enter or Escape
+        Return mode default
+        Escape mode default
+    }
+}
+ bindsym $mod+BackSpace mode $mode_system
+
 #
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
+    swaybar_command waybar
 }
 
-include /etc/sway/config.d/*
